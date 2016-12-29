@@ -1,5 +1,7 @@
+-- This is a deprecated module, use skynet.queue instead.
+
 local skynet = require "skynet"
-local c = require "skynet.c"
+local c = require "skynet.core"
 
 local mqueue = {}
 local init_once
@@ -41,6 +43,7 @@ local function message_dispatch(f)
 						error(string.format("[:%x] send a message to [:%x] return something", msg.addr, skynet.self()))
 					end
 				else
+					skynet.fork(message_dispatch,f)
 					error(string.format("[:%x] send a message to [:%x] throw an error : %s", msg.addr, skynet.self(),msg))
 				end
 			else
